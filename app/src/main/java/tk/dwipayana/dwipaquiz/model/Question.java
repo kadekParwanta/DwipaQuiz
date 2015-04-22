@@ -43,7 +43,7 @@ public class Question {
         mTopic = TOPICS.NONE;
         mMajor = MAJOR.NONE;
         mQuestion = "";
-        mOptions = new String[3];
+        mOptions = new String[4];
         mAnswer = "";
         mSolutionID = "";
         ID = 0;

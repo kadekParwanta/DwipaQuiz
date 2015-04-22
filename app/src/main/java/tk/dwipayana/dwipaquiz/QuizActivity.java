@@ -67,7 +67,9 @@ public class QuizActivity extends ActionBarActivity {
                     currentQ=quesList.get(qid);
                     setQuestionView();
                 }else{
-                    Intent intent = new Intent(QuizActivity.this, ResultActivity.class);
+                    //TODO: put the voice recognition somewhere else
+//                    Intent intent = new Intent(QuizActivity.this, ResultActivity.class);
+                    Intent intent = new Intent(QuizActivity.this, VoiceRecognitionActivity.class);
                     Bundle b = new Bundle();
                     b.putInt("score", score);
                     intent.putExtras(b);
