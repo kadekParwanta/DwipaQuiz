@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -26,11 +27,12 @@ public class QuizActivity extends ActionBarActivity {
     int qid=0;
     int totalQuestions;
     Question currentQ;
-    TextView txtQuestion;
+    TextView txtQuestion, txtTahun, txtMataPel;
     RadioButton rda, rdb, rdc, rdd, rde;
     RadioGroup radioGroup1;
     Button butNext;
     DbHelper db;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +40,9 @@ public class QuizActivity extends ActionBarActivity {
         setContentView(R.layout.activity_quiz);
 
         db=new DbHelper(this);
-        addSampleQuestions();
         quesList=db.getAllQuestions();
         currentQ=quesList.get(qid);
+        totalQuestions = db.rowCount();
 
         txtQuestion=(TextView)findViewById(R.id.textView1);
         radioGroup1 = (RadioGroup)findViewById(R.id.radioGroup1);
@@ -55,6 +57,10 @@ public class QuizActivity extends ActionBarActivity {
         rde = (RadioButton)findViewById(R.id.radio4);
         rde.setTag(4);
         butNext=(Button)findViewById(R.id.button1);
+        txtTahun = (TextView) findViewById(R.id.tv_tahun);
+        txtMataPel = (TextView) findViewById(R.id.tv_mata_pel);
+        progressBar = (ProgressBar) findViewById(R.id.progressBarQuest);
+        progressBar.setMax(totalQuestions);
 
         setQuestionView();
 
@@ -67,9 +73,7 @@ public class QuizActivity extends ActionBarActivity {
                     currentQ=quesList.get(qid);
                     setQuestionView();
                 }else{
-                    //TODO: put the voice recognition somewhere else
-//                    Intent intent = new Intent(QuizActivity.this, ResultActivity.class);
-                    Intent intent = new Intent(QuizActivity.this, VoiceRecognitionActivity.class);
+                    Intent intent = new Intent(QuizActivity.this, ResultActivity.class);
                     Bundle b = new Bundle();
                     b.putInt("score", score);
                     intent.putExtras(b);
@@ -106,8 +110,9 @@ public class QuizActivity extends ActionBarActivity {
 
     private void setQuestionView()
     {
-        totalQuestions = db.rowCount();
-        txtQuestion.setText(currentQ.getQuestion());
+        txtTahun.setText("Tahun: " + currentQ.getYear());
+        txtMataPel.setText("Mata Pelajaran " + currentQ.getTopic().toString().toLowerCase());
+        txtQuestion.setText(qid + 1 + " . " + currentQ.getQuestion());
         String[] options = currentQ.getOptions();
         Random rand = new Random();
         int i = rand.nextInt(5);
@@ -124,23 +129,6 @@ public class QuizActivity extends ActionBarActivity {
             k++;
         }
         qid++;
-    }
-
-    public void addSampleQuestions()
-    {
-        if (db.rowCount() > 0) return;
-
-        String[] options1 = {"Abundance", "Anxiety", "Bruxism", "Discipline"};
-        Question q1=new Question(2012, Question.TOPICS.INDO, Question.MAJOR.IPA, "What is JP?", options1, "Jasa Programmer1", "iauhsfkhal");
-        db.addQuestion(q1);
-
-        String[] options2 = {"Monas, Jakarta", "Gelondong, Bangun Tapan, bantul", "Gelondong, Bangun Tapan, bandul", "Gelondong, Bangun Tapan, bantul"};
-        Question q2=new Question(2012, Question.TOPICS.INDO, Question.MAJOR.IPA, "where the JP place?", options2, "Gelondong, Bangun Tapan, bantul2", "iauhsfkhal");
-        db.addQuestion(q2);
-
-
-        String[] options3 = {"JP is programmer home", "JP also realigy home", "all answer is true","all answer is true"};
-        Question q3=new Question(2012, Question.TOPICS.INDO, Question.MAJOR.IPA, "what do you know about JP?", options3, "all answer is true3", "iauhsfkhal");
-        db.addQuestion(q3);
+        progressBar.setProgress(qid);
     }
 }

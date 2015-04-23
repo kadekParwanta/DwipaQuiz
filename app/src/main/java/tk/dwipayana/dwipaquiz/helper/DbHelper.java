@@ -5,10 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 
 import tk.dwipayana.dwipaquiz.model.Question;
 
@@ -118,10 +120,22 @@ public class DbHelper extends SQLiteOpenHelper {
                     String optB = cursor.getString(cursor.getColumnIndex(KEY_OPTB));
                     String optC = cursor.getString(cursor.getColumnIndex(KEY_OPTC));
                     String optD = cursor.getString(cursor.getColumnIndex(KEY_OPTD));
-                    options[0] = optA;
-                    options[1] = optB;
-                    options[2] = optC;
-                    options[3] = optD;
+                    Random rand = new Random();
+                    int a = rand.nextInt(4);
+                    options[a] = optA;
+
+                    int b = rand.nextInt(4);
+                    while (b == a) b = rand.nextInt(4);
+                    options[b] = optB;
+
+                    int c = rand.nextInt(4);
+                    while (c == b || c == a) c = rand.nextInt(4);
+                    options[c] = optC;
+
+                    int d = rand.nextInt(4);
+                    while (d == c || d == b || d == a) d = rand.nextInt(4);
+                    options[d] = optD;
+
                     quest.setOptions(options);
 
                     quest.setSolutionID(cursor.getString(cursor.getColumnIndex(KEY_SOLUTION_ID)));
