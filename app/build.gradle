@@ -5,13 +5,13 @@ repositories {
 }
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 21
     buildToolsVersion "22.0.0"
 
     defaultConfig {
         applicationId "tk.dwipayana.dwipaquiz"
         minSdkVersion 10
-        targetSdkVersion 22
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
         testApplicationId "tk.dwipayana.dwipaquiz.ApplicationTest"
@@ -26,6 +26,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:appcompat-v7:21.0.0'
     androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
 }
