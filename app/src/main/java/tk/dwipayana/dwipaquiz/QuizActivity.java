@@ -120,7 +120,7 @@ public class QuizActivity extends ActionBarActivity {
         Log.d("rand", "Random answer pos "+i);
         for (int j=0; j<radioGroup1.getChildCount(); j++) {
             RadioButton button = (RadioButton) radioGroup1.getChildAt(j);
-            if (button.getTag() == i) {
+            if ((int)button.getTag() == i) {
                 button.setText(currentQ.getAnswer());
                 k--;
             } else {
